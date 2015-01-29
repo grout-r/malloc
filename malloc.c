@@ -1,3 +1,15 @@
+/*
+
+
+MADE BY GROUT_R + VOINNE_C
+
+PROJECT MALLOC EPITECH 2
+
+JANUARY 2015
+ */
+
+
+
 #include <unistd.h>
 #include <stdio.h>
 
