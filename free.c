@@ -5,18 +5,34 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Jan 27 14:42:01 2015 Cédric Voinnet
-** Last update Thu Jan 29 12:17:55 2015 Cédric Voinnet
+** Last update Fri Jan 30 15:49:19 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "mem.h"
 
 unsigned int	get_size(void *ptr)
 {
-  ptr -= 4;
-  printf("size: %d\n",*(unsigned int*)ptr);
+  ptr -= 8;
   return (*(unsigned int*)ptr);
+}
+
+void	fusion_backward(void *ptr)
+{
+  
+}
+
+void	fusion_forward(void *ptr)
+{
+  
+}
+
+void	set_free(void *ptr)
+{
+  ptr -= 9;
+  *(char*)ptr = 0;
 }
 
 void	free(void *ptr)
@@ -28,38 +44,58 @@ void	free(void *ptr)
   size = get_size(ptr);
   if (ptr + size == sbrk(0))
     {
-      printf("Dernier element alloué\n");
-      sbrk((size * -1) - 4);
+      set_free(ptr);
+      *(int*)(ptr - 8) = 0;
+      brk(ptr);
       return;
     }
-  ptr -= 5;
-  *(char*)ptr == 0 ? printf("ptr is free\n") : printf("ptr is occuped\n");
-  *(char*)ptr = 0;
+  set_free(ptr);
 }
 
 int	main()
 {
-  void	*toto;
-  void	*titi;
+  void  *tata;
+  void  *titi;
+  void  *toto;
+  void  *tutu;
 
-  printf("End of heap: %10p\n", sbrk(0));
-  toto = sbrk(6);
+  start = sbrk(0);
+
+  show_alloc_mem();
+
+  toto = sbrk(972);
   *(char*)toto = 1;
   toto += 1;
-  *(unsigned int*)toto = 1;
-  printf("End of heap: %10p\n", sbrk(0));
+  *(unsigned int*)toto = 963;
+  toto += 4;
+  *(unsigned int*)toto = 0;
   toto += 4;
 
-  *(char*)toto = 't';
+  show_alloc_mem();
 
-  titi = sbrk(132);
+  titi = sbrk(10);
   *(char*)titi = 1;
   titi += 1;
-  *(unsigned int*)titi = 128;
-  printf("End of heap: %10p\n", sbrk(0));
+  *(unsigned int*)titi = 1;
   titi += 4;
-  free(toto);
-  free(titi);
-  printf("End of heap: %10p\n", sbrk(0));
+  *(unsigned int*)titi = 963;
+  titi += 4;
+
+  show_alloc_mem();
+
+  tata = sbrk(454121);
+  *(char*)tata = 1;
+  tata += 1;
+  *(unsigned int*)tata = 454112;
+  tata += 4;
+  *(unsigned int*)tata = 1;
+  tata += 4;
+
+  show_alloc_mem();
+
+  free(tata);
+
+  show_alloc_mem();
+
   return (0);
 }
