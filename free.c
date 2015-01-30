@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Jan 27 14:42:01 2015 Cédric Voinnet
-** Last update Fri Jan 30 15:49:19 2015 Cédric Voinnet
+** Last update Fri Jan 30 16:37:26 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
@@ -19,14 +19,17 @@ unsigned int	get_size(void *ptr)
   return (*(unsigned int*)ptr);
 }
 
-void	fusion_backward(void *ptr)
+unsigned int	fusion_backward(void *ptr)
 {
   
 }
 
-void	fusion_forward(void *ptr)
+unsigned int	fusion_forward(void *ptr)
 {
-  
+  if (ptr == sbrk(0))
+    return (0);
+  *(int*)ptr - 4 = fusion_forward(ptr);
+  return (*(int*)ptr - 4);
 }
 
 void	set_free(void *ptr)
@@ -41,6 +44,8 @@ void	free(void *ptr)
 
   if (!ptr)
     return;
+  fusion_forward(ptr);
+  fusion_backward(ptr);
   size = get_size(ptr);
   if (ptr + size == sbrk(0))
     {
