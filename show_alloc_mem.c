@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Fri Jan 30 09:47:38 2015 Cédric Voinnet
-** Last update Fri Jan 30 14:50:43 2015 Cédric Voinnet
+** Last update Fri Jan 30 16:41:52 2015 Cédric Voinnet
 */
 
 #include <unistd.h>
@@ -25,7 +25,7 @@ void		show_alloc_mem()
   void		*tmp;
   unsigned int	size;
 
-  tmp = start;
+  tmp = g_start;
   printf("break: %p\n", sbrk(0));
   tmp += 9;
   while (tmp != sbrk(0) && tmp - 9 != sbrk(0))

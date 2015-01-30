@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Jan 27 14:42:01 2015 Cédric Voinnet
-** Last update Fri Jan 30 16:37:26 2015 Cédric Voinnet
+** Last update Fri Jan 30 16:40:04 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
@@ -64,7 +64,7 @@ int	main()
   void  *toto;
   void  *tutu;
 
-  start = sbrk(0);
+  g_start = sbrk(0);
 
   show_alloc_mem();
 
