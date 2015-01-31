@@ -14,9 +14,11 @@ void		*g_start;
 
 void	*find_space(void *ptr, size_t size)
 {
-  while (ptr )
+  while (ptr != sbrk(0) )
     {
-      
+      if(*(char*)ptr == 0 && *(int*)((char*)(ptr + 1)) >= size)
+	return ptr;
+      ptr = ptr + *(int*)(ptr + 1) + 9;
     }
   return NULL;
 }
@@ -37,26 +39,23 @@ void		*malloc(size_t size)
     {
       first_time = 1;
       g_start = sbrk(0);
-      sbrk(9);
       puts("first time !");
     }
   if ((ret = find_space(g_start, size)) != NULL)
     {
       *(char *)ret = 1;
-      return ret;
+      return ((char*)ret + 5);
     }
 
   ret = sbrk(size + 9);
 
   stock_status = (char*)(ret);
   stock_size = (int*)((char*)ret + 1);
-  stock_next = (int*)((char*)ret + 9 + 5 + size);
+  stock_next = (int*)((char*)ret + 5 + size);
 
-  if (first_time == 0)
-    *(int*)((char*)ret + 5) = 0;
   *stock_status = 1;
   *stock_size = size;
   *stock_next = size; 
--
-  return ((char*)ret + 9);
+
+  return ((char*)ret + 5);
 }
