@@ -4,6 +4,7 @@ MADE BY GROUT_R + VOINNE_C
 PROJECT MALLOC EPITECH 2
 
 JANUARY 2015
+
  */
 
 #include <unistd.h>
@@ -35,11 +36,11 @@ void		*malloc(size_t size)
   if (first_time == 0)
     {
       first_time = 1;
-      start = sbrk(0);
+      g_start = sbrk(0);
       sbrk(9);
       puts("first time !");
     }
-  if ((ret = find_space(start, size)) != NULL)
+  if ((ret = find_space(g_start, size)) != NULL)
     {
       *(char *)ret = 1;
       return ret;
