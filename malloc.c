@@ -16,7 +16,7 @@ void	*find_space(void *ptr, size_t size)
 {
   while (ptr != sbrk(0) )
     {
-      if(*(char*)ptr == 0 && *(int*)((char*)(ptr + 1)) >= size)
+      if(*(char*)ptr == 0 && *(int*)((char*)(ptr + 1)) >= (int)size)
 	return ptr;
       ptr = ptr + *(int*)(ptr + 1) + 9;
     }
