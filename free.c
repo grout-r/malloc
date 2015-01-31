@@ -37,29 +37,29 @@ void	free(void *ptr)
   *(char*)ptr = 0;
 }
 
-int	main()
-{
-  void	*toto;
-  void	*titi;
+/* int	main() */
+/* { */
+/*   void	*toto; */
+/*   void	*titi; */
 
-  printf("End of heap: %10p\n", sbrk(0));
-  toto = sbrk(6);
-  *(char*)toto = 1;
-  toto += 1;
-  *(unsigned int*)toto = 1;
-  printf("End of heap: %10p\n", sbrk(0));
-  toto += 4;
+/*   printf("End of heap: %10p\n", sbrk(0)); */
+/*   toto = sbrk(6); */
+/*   *(char*)toto = 1; */
+/*   toto += 1; */
+/*   *(unsigned int*)toto = 1; */
+/*   printf("End of heap: %10p\n", sbrk(0)); */
+/*   toto += 4; */
 
-  *(char*)toto = 't';
+/*   *(char*)toto = 't'; */
 
-  titi = sbrk(132);
-  *(char*)titi = 1;
-  titi += 1;
-  *(unsigned int*)titi = 128;
-  printf("End of heap: %10p\n", sbrk(0));
-  titi += 4;
-  free(toto);
-  free(titi);
-  printf("End of heap: %10p\n", sbrk(0));
-  return (0);
-}
+/*   titi = sbrk(132); */
+/*   *(char*)titi = 1; */
+/*   titi += 1; */
+/*   *(unsigned int*)titi = 128; */
+/*   printf("End of heap: %10p\n", sbrk(0)); */
+/*   titi += 4; */
+/*   free(toto); */
+/*   free(titi); */
+/*   printf("End of heap: %10p\n", sbrk(0)); */
+/*   return (0); */
+/* } */
