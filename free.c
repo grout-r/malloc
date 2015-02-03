@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Jan 27 14:42:01 2015 Cédric Voinnet
-** Last update Fri Jan 30 16:40:04 2015 Cédric Voinnet
+** Last update Tue Feb  3 11:56:09 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
@@ -13,94 +13,44 @@
 #include <unistd.h>
 #include "mem.h"
 
-unsigned int	get_size(void *ptr)
+size_t	fusion_forward(void *ptr)
 {
-  ptr -= 8;
-  return (*(unsigned int*)ptr);
-}
-
-unsigned int	fusion_backward(void *ptr)
-{
-  
-}
-
-unsigned int	fusion_forward(void *ptr)
-{
-  if (ptr == sbrk(0))
+  if (ptr == sbrk(0) || ptr - (DATA_SIZE + DATA_FREE) == sbrk(0) || !is_free(ptr))
     return (0);
-  *(int*)ptr - 4 = fusion_forward(ptr);
-  return (*(int*)ptr - 4);
+  (*(size_t*)(ptr - DATA_SIZE)) += fusion_forward(ptr + get_size(ptr) + META_SIZE);
+  (*(size_t*)(ptr + (*(size_t*)(ptr - DATA_SIZE)))) = (*(size_t*)(ptr - DATA_SIZE));
+  return (*(size_t*)(ptr - DATA_SIZE) + META_SIZE);
+}
+
+size_t	fusion_backward(void *ptr)
+{
+  if (!is_free(ptr))
+    return (0);
+  if (ptr != g_start && ptr - (DATA_SIZE + DATA_FREE) != g_start)
+    fusion_backward(ptr - (META_SIZE + get_prev_size(ptr)));
+  return (fusion_forward(ptr));
 }
 
 void	set_free(void *ptr)
 {
-  ptr -= 9;
+  ptr -= (DATA_SIZE + DATA_FREE);
   *(char*)ptr = 0;
 }
 
-void	free(void *ptr)
+void		free(void *ptr)
 {
-  unsigned int	size;
+  printf("FREEEEEEEEEEEEE\n");
+
+  size_t	size;
 
   if (!ptr)
     return;
-  fusion_forward(ptr);
+  set_free(ptr);
   fusion_backward(ptr);
   size = get_size(ptr);
-  if (ptr + size == sbrk(0))
+  if (ptr + size + DATA_SIZE == sbrk(0))
     {
-      set_free(ptr);
-      *(int*)(ptr - 8) = 0;
-      brk(ptr);
-      return;
+      *(size_t*)(ptr - DATA_SIZE) = 0;
+      brk(ptr - (DATA_FREE + DATA_SIZE));
     }
-  set_free(ptr);
-}
-
-int	main()
-{
-  void  *tata;
-  void  *titi;
-  void  *toto;
-  void  *tutu;
-
-  g_start = sbrk(0);
-
-  show_alloc_mem();
-
-  toto = sbrk(972);
-  *(char*)toto = 1;
-  toto += 1;
-  *(unsigned int*)toto = 963;
-  toto += 4;
-  *(unsigned int*)toto = 0;
-  toto += 4;
-
-  show_alloc_mem();
-
-  titi = sbrk(10);
-  *(char*)titi = 1;
-  titi += 1;
-  *(unsigned int*)titi = 1;
-  titi += 4;
-  *(unsigned int*)titi = 963;
-  titi += 4;
-
-  show_alloc_mem();
-
-  tata = sbrk(454121);
-  *(char*)tata = 1;
-  tata += 1;
-  *(unsigned int*)tata = 454112;
-  tata += 4;
-  *(unsigned int*)tata = 1;
-  tata += 4;
-
-  show_alloc_mem();
-
-  free(tata);
-
-  show_alloc_mem();
-
-  return (0);
 }
