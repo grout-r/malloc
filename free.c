@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Jan 27 14:42:01 2015 Cédric Voinnet
-** Last update Wed Feb  4 10:15:17 2015 Cédric Voinnet
+** Last update Wed Feb  4 12:09:00 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
@@ -22,13 +22,14 @@ size_t	fusion_forward(void *ptr)
   return (*(size_t*)(ptr - DATA_SIZE) + META_SIZE);
 }
 
-size_t	fusion_backward(void *ptr)
+void	*fusion_backward(void *ptr)
 {
   if (!is_free(ptr))
-    return (0);
+    return (ptr + META_SIZE + get_size(ptr));
   if (ptr != g_start && ptr - (DATA_SIZE + DATA_FREE) != g_start)
-    fusion_backward(ptr - (META_SIZE + get_prev_size(ptr)));
-  return (fusion_forward(ptr));
+    ptr = fusion_backward(ptr - (META_SIZE + get_prev_size(ptr)));
+  fusion_forward(ptr);
+  return (ptr);
 }
 
 void	set_free(void *ptr)
@@ -39,22 +40,16 @@ void	set_free(void *ptr)
 
 void		free(void *ptr)
 {
-  printf("FREEEEEEEEEEEEE de %p\n", ptr);
-
   size_t	size;
 
   if (!ptr)
     return;
   set_free(ptr);
-  fusion_backward(ptr);
+  ptr = fusion_backward(ptr);
   size = get_size(ptr);
-  //  printf("%lu :: %lu\n", *(size_t*)(ptr - DATA_SIZE), size);
   if (ptr + size + DATA_SIZE == sbrk(0))
     {
-      printf("dernier elem %p: %lu\n", ptr, *(size_t*)(ptr - DATA_SIZE));
       *(size_t*)(ptr - DATA_SIZE) = 0;
       brk(ptr - (DATA_FREE + DATA_SIZE));
     }
-  printf("FREEEEEEE OK\n");
-  //  printf("%p --- %p\n", ptr - (DATA_FREE + DATA_SIZE), sbrk(0));
 }
