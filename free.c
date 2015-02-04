@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Jan 27 14:42:01 2015 Cédric Voinnet
-** Last update Tue Feb  3 11:56:09 2015 Cédric Voinnet
+** Last update Wed Feb  4 10:15:17 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
@@ -39,7 +39,7 @@ void	set_free(void *ptr)
 
 void		free(void *ptr)
 {
-  printf("FREEEEEEEEEEEEE\n");
+  printf("FREEEEEEEEEEEEE de %p\n", ptr);
 
   size_t	size;
 
@@ -48,9 +48,13 @@ void		free(void *ptr)
   set_free(ptr);
   fusion_backward(ptr);
   size = get_size(ptr);
+  //  printf("%lu :: %lu\n", *(size_t*)(ptr - DATA_SIZE), size);
   if (ptr + size + DATA_SIZE == sbrk(0))
     {
+      printf("dernier elem %p: %lu\n", ptr, *(size_t*)(ptr - DATA_SIZE));
       *(size_t*)(ptr - DATA_SIZE) = 0;
       brk(ptr - (DATA_FREE + DATA_SIZE));
     }
+  printf("FREEEEEEE OK\n");
+  //  printf("%p --- %p\n", ptr - (DATA_FREE + DATA_SIZE), sbrk(0));
 }

@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Feb  3 09:59:09 2015 Cédric Voinnet
-** Last update Tue Feb  3 12:39:42 2015 Cédric Voinnet
+** Last update Wed Feb  4 09:24:21 2015 Cédric Voinnet
 */
 
 #include <unistd.h>
@@ -18,6 +18,7 @@ void	*find_space(void *ptr, size_t size)
 {
   while (ptr != sbrk(0))
     {
+      //      printf("%p --- %p ... %p\n", ptr, ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE, sbrk(0));
       if (*(char*)ptr == 0 && *(size_t*)(ptr + DATA_FREE) >= size)
 	return (ptr);
       ptr = ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE;
@@ -27,10 +28,11 @@ void	*find_space(void *ptr, size_t size)
 
 void		*malloc(size_t size)
 {
-  printf("MALLLLLOOOOOCCOCOOCOCOCOCO\n");
+  //  printf("MALLLLLOOOOOCCOCOOCOCOCOCO\n");
   void		*ret;
   static int	first_time = 0;
 
+  //  show_alloc_mem();
   if ((long)size < 1)
     return (NULL);
   if (first_time == 0)
@@ -43,6 +45,7 @@ void		*malloc(size_t size)
       *(char *)ret = 1;
       return (ret + DATA_FREE + DATA_SIZE);
     }
+  //  printf("TOUT EST VRAIMENT GENIAL \n");
   ret = sbrk(size + META_SIZE);
   if (ret == (void*) -1)
     {
