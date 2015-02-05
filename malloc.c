@@ -14,13 +14,34 @@
 
 void		*g_start;
 
+
+void		*split(void *ptr, size_t size)
+{
+  size_t	old_size;
+  void		*new;
+
+  old_size = get_size((char*)ptr + DATA_FREE  + DATA_SIZE);
+
+  if ((old_size + META_SIZE - (old_size - size)) >= META_SIZE + 1)
+    {
+      *(size_t*)((char*)ptr + DATA_FREE) = size;
+      *(size_t*)((char*)ptr + DATA_FREE + DATA_SIZE + size) = size;
+      
+      new = ((char*)ptr + META_SIZE + size);
+
+      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE) = size;
+      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + (old_size - size)) = size;
+    }
+  return (ptr);
+}
+
 void	*find_space(void *ptr, size_t size)
 {
   while (ptr != sbrk(0))
     {
       //      printf("%p --- %p ... %p\n", ptr, ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE, sbrk(0));
       if (*(char*)ptr == 0 && *(size_t*)(ptr + DATA_FREE) >= size)
-	return (ptr);
+	return (split(ptr, size));
       ptr = ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE;
     }
   return (NULL);
