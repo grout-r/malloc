@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Fri Jan 30 09:49:48 2015 Cédric Voinnet
-** Last update Wed Feb  4 09:32:02 2015 Cédric Voinnet
+** Last update Wed Feb  4 12:08:45 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
@@ -15,11 +15,8 @@
 
 void	*realloc(void *ptr, size_t size)
 {
-  //  printf("REALLLLOOOOOCC\n");
   void	*new;
 
-  show_alloc_mem();
-  //  printf("s: %p --- c: %p --- e: %p SIZE :::: \t%lu\n", g_start, ptr, sbrk(0), size);
   if (!ptr)
     return (malloc(size));
   if (!size)
