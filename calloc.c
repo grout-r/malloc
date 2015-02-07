@@ -5,27 +5,22 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Feb  3 09:11:33 2015 Cédric Voinnet
-** Last update Tue Feb  3 10:27:21 2015 Cédric Voinnet
+** Last update Sat Feb  7 10:03:28 2015 Cédric Voinnet
 */
 
 #include <stdio.h>
 #include <unistd.h>
+#include <strings.h>
 #include "mem.h"
 
 void		*calloc(size_t nmemb, size_t size)
 {
   void		*tab;
-  size_t	i;
 
-  i = 0;
   if(!nmemb || !size)
     return (NULL);
   if (!(tab = malloc(nmemb * size)))
     return (NULL);
-  while (i != nmemb * size)
-    {
-      *(char*)tab = 0;
-      ++i;
-    }
+  bzero(tab, nmemb * size);
   return (tab);
 }

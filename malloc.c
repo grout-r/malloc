@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Feb  3 09:59:09 2015 Cédric Voinnet
-** Last update Wed Feb  4 12:12:16 2015 Cédric Voinnet
+** Last update Sat Feb  7 09:52:57 2015 Cédric Voinnet
 */
 
 #include <unistd.h>
@@ -45,8 +45,8 @@ void	*find_space(void *ptr, size_t size)
   while (ptr != sbrk(0))
     {
       if (*(char*)ptr == 0 && *(size_t*)(ptr + DATA_FREE) >= size)
-	//return ptr;
-	return (split(ptr, size));
+	return ptr;
+	//	return (split(ptr, size));
       ptr = ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE;
     }
   return (NULL);

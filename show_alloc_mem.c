@@ -5,20 +5,12 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Fri Jan 30 09:47:38 2015 Cédric Voinnet
-** Last update Mon Feb  2 19:12:05 2015 Cédric Voinnet
+** Last update Fri Feb  6 08:19:10 2015 Cédric Voinnet
 */
 
 #include <unistd.h>
 #include <stdio.h>
 #include "mem.h"
-
-int	is_free(void *ptr)
-{
-  ptr -= DATA_SIZE + DATA_FREE;
-  if (*(char*)ptr == 0)
-    return (1);
-  return (0);
-}
 
 void		show_alloc_mem()
 {

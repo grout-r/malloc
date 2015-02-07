@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Fri Jan 30 13:37:35 2015 Cédric Voinnet
-** Last update Mon Feb  2 18:57:13 2015 Cédric Voinnet
+** Last update Fri Feb  6 08:18:40 2015 Cédric Voinnet
 */
 
 #ifndef MEM_H_
@@ -17,13 +17,14 @@
 
 extern void	*g_start;
 
-void	show_alloc_mem();
-void	*malloc(size_t);
-void	free(void *);
+void		show_alloc_mem();
+void		*malloc(size_t);
+void		free(void *);
 size_t		get_size(void *ptr);
 void		show_alloc_mem();
 int		is_free(void *);
 size_t		get_size(void *ptr);
 size_t		get_prev_size(void *ptr);
+size_t		next_pow(size_t);
 
 #endif	/* !MEM_H_ */
