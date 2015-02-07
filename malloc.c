@@ -20,9 +20,9 @@ void		*split(void *ptr, size_t size)
   size_t	old_size;
   void		*new;
 
-  old_size = get_size((char*)ptr + DATA_FREE  + DATA_SIZE);
+  old_size = *(size_t*)((char*)ptr + DATA_FREE);
 
-  if (((old_size + META_SIZE) -size) >= META_SIZE + 1)
+  if (((old_size + META_SIZE) - (size + META_SIZE)) >= META_SIZE + 1)
     {
       *(size_t*)((char*)ptr + DATA_FREE) = size;
       *(size_t*)((char*)ptr + DATA_FREE + DATA_SIZE + size) = size;
