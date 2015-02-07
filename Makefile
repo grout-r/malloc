@@ -1,6 +1,8 @@
-CC = 		gcc -g3
+CC = 		gcc
 
 RM = 		rm -f
+
+CFLAGS =	-fpic -Wall -Wextra -Werror
 
 SRC =		malloc.c \
 		free.c \
@@ -9,18 +11,25 @@ SRC =		malloc.c \
 		realloc.c \
 		calloc.c
 
-NAME =		libmy_malloc_x86_64.so
+OBJ =		$(SRC:.c=.o)
 
-all:		$(NAME)
+NAME1 =		libmy_malloc_$(HOSTTYPE).so
 
-$(NAME):
-	$(CC) -shared -fpic -Wall -Wextra -Werror $(SRC) -o $(NAME)
-#	LD_LIBRARY_PATH=$(PWD):$(LD_LIBRARY_PATH)
-#	ln -s $(NAME) $(LD_LIBRARY_PATH)
+NAME2 =		libmy_malloc.so
+
+all:		$(NAME1)
+
+$(NAME1):	$(OBJ)
+	$(CC) $(OBJ) -shared -o $(NAME1)
+	ln -fs $(NAME1) $(NAME2)
 
 clean:
-	$(RM) $(NAME)
+	$(RM) $(OBJ)
 
-re:		clean all
+fclean:	clean
+	$(RM) $(NAME1)
+	$(RM) $(NAME2)
 
-.PHONY:		all re clean
+re:		fclean all
+
+.PHONY:		all re clean fclean

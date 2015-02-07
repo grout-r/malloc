@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Feb  3 09:59:09 2015 Cédric Voinnet
-** Last update Sat Feb  7 10:54:12 2015 Cédric Voinnet
+** Last update Sat Feb  7 19:21:26 2015 Cédric Voinnet
 */
 
 #include <unistd.h>
@@ -26,13 +26,8 @@ void		*split(void *ptr, size_t size)
     {
       *(size_t*)((char*)ptr + DATA_FREE) = size;
       *(size_t*)((char*)ptr + DATA_FREE + DATA_SIZE + size) = size;
-      
       new = ((char*)ptr + META_SIZE + size);
-      
-      new_size = old_size - (DATA_SIZE + size) - META_SIZE;
-
-      printf("old_size : %lu -- size : %lu  -- new size : %lu\n", old_size, size, new_size);
-
+      new_size = old_size - (size + DATA_SIZE + DATA_FREE + DATA_SIZE);
       *(char*)(new) = 0;
       *(size_t*)((char*)new + DATA_FREE) = new_size;
       *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + new_size) = new_size;
@@ -45,7 +40,6 @@ void	*find_space(void *ptr, size_t size)
   while (ptr != sbrk(0))
     {
       if (*(char*)ptr == 0 && *(size_t*)(ptr + DATA_FREE) >= size)
-	//return ptr;
 	return (split(ptr, size));
       ptr = ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE;
     }
@@ -71,10 +65,7 @@ void		*malloc(size_t size)
     }
   ret = sbrk(size + META_SIZE);
   if (ret == (void*) -1)
-    {
-      printf("OWOWOWOWOWOWOWOWO\n");
     return (NULL);
-    }
   *(char*)(ret) = 1;
   *(size_t*)(ret + DATA_FREE) = size;
   *(size_t*)(ret + DATA_FREE + DATA_SIZE + size) = size;
