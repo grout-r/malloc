@@ -1,4 +1,4 @@
-CC = 		gcc
+CC = 		gcc -g3
 
 RM = 		rm -f
 
@@ -9,7 +9,7 @@ SRC =		malloc.c \
 		realloc.c \
 		calloc.c
 
-NAME =		libmy_malloc_$(HOSTTYPE).so
+NAME =		libmy_malloc_x86_64.so
 
 all:		$(NAME)
 

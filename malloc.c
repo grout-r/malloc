@@ -14,10 +14,10 @@
 
 void		*g_start;
 
-
 void		*split(void *ptr, size_t size)
 {
   size_t	old_size;
+  size_t	new_size;
   void		*new;
 
   old_size = *(size_t*)((char*)ptr + DATA_FREE);
@@ -28,9 +28,11 @@ void		*split(void *ptr, size_t size)
       *(size_t*)((char*)ptr + DATA_FREE + DATA_SIZE + size) = size;
       
       new = ((char*)ptr + META_SIZE + size);
-
-      *(size_t*)((char*)new + DATA_FREE) = old_size - size;
-      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + (old_size - size)) = old_size - size;
+      new_size = old_size - (size + META_SIZE) - META_SIZE - 1;
+      //printf("old_size : %lu -- size : %lu  -- new size : %lu\n", old_size + META_SIZE , size + META_SIZE , new_size + META_SIZE);
+      *(char*)(new) = 0;
+      *(size_t*)((char*)new + DATA_FREE) = new_size;
+      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + new_size) = new_size;
     }
   return (ptr);
 }
