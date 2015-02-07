@@ -22,15 +22,15 @@ void		*split(void *ptr, size_t size)
 
   old_size = get_size((char*)ptr + DATA_FREE  + DATA_SIZE);
 
-  if ((old_size + META_SIZE - (old_size - size)) >= META_SIZE + 1)
+  if (((old_size + META_SIZE) -size) >= META_SIZE + 1)
     {
       *(size_t*)((char*)ptr + DATA_FREE) = size;
       *(size_t*)((char*)ptr + DATA_FREE + DATA_SIZE + size) = size;
       
       new = ((char*)ptr + META_SIZE + size);
 
-      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE) = size;
-      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + (old_size - size)) = size;
+      *(size_t*)((char*)new + DATA_FREE) = old_size - size;
+      *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + (old_size - size)) = old_size - size;
     }
   return (ptr);
 }
@@ -40,6 +40,7 @@ void	*find_space(void *ptr, size_t size)
   while (ptr != sbrk(0))
     {
       if (*(char*)ptr == 0 && *(size_t*)(ptr + DATA_FREE) >= size)
+	//return ptr;
 	return (split(ptr, size));
       ptr = ptr + *(size_t*)(ptr + DATA_FREE) + META_SIZE;
     }
