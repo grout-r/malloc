@@ -28,8 +28,11 @@ void		*split(void *ptr, size_t size)
       *(size_t*)((char*)ptr + DATA_FREE + DATA_SIZE + size) = size;
       
       new = ((char*)ptr + META_SIZE + size);
-      new_size = old_size - (size + META_SIZE) - META_SIZE - 1;
-      //printf("old_size : %lu -- size : %lu  -- new size : %lu\n", old_size + META_SIZE , size + META_SIZE , new_size + META_SIZE);
+      
+      new_size = (old_size + META_SIZE) - (size + META_SIZE) - META_SIZE;
+
+      printf("old_size : %lu -- size : %lu  -- new size : %lu\n", old_size + META_SIZE , size + META_SIZE , new_size + META_SIZE);
+
       *(char*)(new) = 0;
       *(size_t*)((char*)new + DATA_FREE) = new_size;
       *(size_t*)((char*)new + DATA_FREE + DATA_SIZE  + new_size) = new_size;
