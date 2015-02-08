@@ -5,7 +5,7 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Fri Jan 30 09:47:38 2015 Cédric Voinnet
-** Last update Fri Feb  6 08:19:10 2015 Cédric Voinnet
+** Last update Sun Feb  8 19:03:42 2015 Cédric Voinnet
 */
 
 #include <unistd.h>
@@ -21,14 +21,12 @@ void		show_alloc_mem()
   if (!g_start)
     return;
   tmp = g_start;
-  tmp += DATA_SIZE + DATA_FREE;
-  while (tmp != sbrk(0) && tmp - (DATA_SIZE + DATA_FREE) != sbrk(0))
+  tmp = (char*)tmp + DATA_SIZE + DATA_FREE;
+  while (tmp != sbrk(0) && (char*)tmp - (DATA_SIZE + DATA_FREE) != sbrk(0))
     {
       size = get_size(tmp);
       if (!is_free(tmp))
-	printf("NOT FREE:\t%p - %p : %lu octets\n", tmp, tmp + size, size);
-      else
-      	printf("FREE:\t\t%p - %p : %lu octets\n", tmp, tmp + size, size);
-      tmp += size + META_SIZE;
+	printf("NOT FREE:\t%p - %p : %lu octets\n", tmp, (char*)tmp + size, size);
+      tmp = (char*)tmp + size + META_SIZE;
     }
 } 

@@ -5,10 +5,9 @@
 ** Login   <voinne_c@epitech.net>
 ** 
 ** Started on  Tue Feb  3 09:11:33 2015 Cédric Voinnet
-** Last update Sat Feb  7 10:03:28 2015 Cédric Voinnet
+** Last update Sun Feb  8 18:58:50 2015 Cédric Voinnet
 */
 
-#include <stdio.h>
 #include <unistd.h>
 #include <strings.h>
 #include "mem.h"

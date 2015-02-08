@@ -2,7 +2,7 @@ CC = 		gcc
 
 RM = 		rm -f
 
-CFLAGS =	-fpic -Wall -Wextra -Werror
+CFLAGS =	-fpic -Wall -Wextra -Werror #-pedantic
 
 SRC =		malloc.c \
 		free.c \
