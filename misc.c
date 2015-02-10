@@ -14,23 +14,27 @@
 
 size_t	get_size(void *ptr)
 {
-  ptr -= DATA_SIZE;
-  return (*(size_t*)ptr);
-  /* return (*(size_t*)((char*)ptr - DATA_SIZE)); */
+  void	*tmp;
+
+  tmp = ((char*)ptr - 8);
+  return (*(size_t*)tmp);
 }
 
 size_t	get_prev_size(void *ptr)
 {
-  ptr -= META_SIZE;
-  return (*(size_t*)ptr);
-  /* return (*(size_t*)((char*)ptr - META_SIZE)); */
+  void	*tmp;
+
+  tmp = ((char*)ptr - 17);
+  return (*(size_t*)tmp);
 }
 
 int	is_free(void *ptr)
 {
-  ptr -= DATA_SIZE + DATA_FREE;
-  if (*(char*)ptr == 0)
-  /* if (*(char*)((char*)ptr - DATA_SIZE + DATA_FREE) == 0) */
+  char	*tmp;
+
+  tmp = (char*)ptr;
+  tmp -= DATA_SIZE + DATA_FREE;
+  if (*tmp == 0)
     return (1);
   return (0);
 }
