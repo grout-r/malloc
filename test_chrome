@@ -1,0 +1,1 @@
+LD_PRELOAD=$PWD/libmy_malloc_$HOSTTYPE.so chromium-browser
